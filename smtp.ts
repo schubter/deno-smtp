@@ -28,6 +28,7 @@ interface SmtpClientOptions {
     | "base64"
     | "binary"
     | "quoted-printable";
+  content_type?: string;
 }
 
 export class SmtpClient {
