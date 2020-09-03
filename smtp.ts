@@ -38,6 +38,7 @@ export class SmtpClient {
 
   constructor({
     content_encoding = ContentTransferEncoding["quoted-printable"],
+    content_type = "text/html; charset=utf-8",
   }: SmtpClientOptions = {}) {
     this._conn = null;
     this._reader = null;
@@ -50,6 +51,7 @@ export class SmtpClient {
       );
     }
     this._content_encoding = _content_encoding as ContentTransferEncoding;
+    this._content_type = content_type;
   }
 
   async connect(config: ConnectConfig | ConnectConfigWithAuthentication) {
@@ -92,7 +94,7 @@ export class SmtpClient {
     await this.writeCmd("Date: ", new Date().toString());
 
     await this.writeCmd("MIME-Version: 1.0");
-    await this.writeCmd("Content-Type: text/html;charset=utf-8");
+    await this.writeCmd(`Content-Type: ${this._content_type}`);
     await this.writeCmd(`Content-Transfer-Encoding: ${this._content_encoding}`);
     await this.writeCmd(config.content, "\r\n.\r\n");
 
