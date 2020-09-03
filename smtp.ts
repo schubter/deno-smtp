@@ -35,6 +35,7 @@ export class SmtpClient {
   private _reader: TextProtoReader | null;
   private _writer: BufWriter | null;
   private _content_encoding: ContentTransferEncoding;
+  private _content_type: String;
 
   constructor({
     content_encoding = ContentTransferEncoding["quoted-printable"],
