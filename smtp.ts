@@ -93,8 +93,14 @@ export class SmtpClient {
     await this.writeCmd("Subject: ", config.subject);
     await this.writeCmd("From: ", fromData);
     await this.writeCmd("To: ", toData);
-    await this.writeCmd("Date: ", new Date().toString());
+    
+    var d: any = new Date();
+    d = ('' + d)
+    .replace(/[a-z]+(\s[a-z]+)\s([0-9]+)(.+)/i, '$2$1$3')
+    .replace(/[a-z]+([-+])|\s+\([a-z]+\)/ig, '$1');
 
+    await this.writeCmd("Date: ", d);
+    
     await this.writeCmd("MIME-Version: 1.0");
     await this.writeCmd(`Content-Type: ${this._content_type}`);
     await this.writeCmd(`Content-Transfer-Encoding: ${this._content_encoding}`);
